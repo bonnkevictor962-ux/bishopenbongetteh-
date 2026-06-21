@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Father's Day — Bishop Enobong Etteh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f1419;
+    --panel:#171f28;
+    --panel-2:#1c2530;
+    --paper:#ece6d9;
+    --paper-dim:#a9a294;
+    --rust:#b5482f;
+    --rust-soft:#c96a4f;
+    --slate:#7a8a99;
+    --line: rgba(236,230,217,0.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--ink);
+    color:var(--paper);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  .serif{font-family:'Fraunces',serif;}
+
+  .page{display:none; position:relative; min-height:100vh; width:100%;}
+  .page.active{display:flex; flex-direction:column; align-items:center; justify-content:center;}
+
+  .page-content{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    width:100%; max-width:640px; padding:5rem 1.5rem 4rem; margin:0 auto; position:relative; z-index:1;
+  }
+
+  /* faint grain texture overlay for warmth */
+  .grain{position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .eyebrow{
+    font-size:0.72rem; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--rust-soft); font-weight:600; margin-bottom:1.1rem; text-align:center;
+  }
+  .eyebrow::before{content:'— '; color:var(--rust-soft);}
+  .eyebrow::after{content:' —'; color:var(--rust-soft);}
+
+  /* ---------- PAGE 1 ---------- */
+  #page1{background:radial-gradient(circle at 50% 20%, #1a2330 0%, #0f1419 65%);}
+  .main-title{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(2.4rem, 8vw, 4.8rem);
+    line-height:1.04;
+    text-align:center;
+    color:var(--paper);
+    letter-spacing:-0.01em;
+  }
+  .main-title em{
+    font-style:italic; font-weight:400; color:var(--rust-soft); display:block;
+  }
+  .divider{
+    width:64px; height:1px; background:var(--rust-soft); margin:1.6rem auto; opacity:0.7;
+  }
+  .love-msg{
+    font-size:clamp(1rem, 2.3vw, 1.18rem);
+    color:var(--paper-dim);
+    text-align:center;
+    line-height:1.85;
+    max-width:480px;
+    font-weight:300;
+  }
+  .love-msg strong{color:var(--paper); font-weight:500;}
+  .signature{
+    font-family:'Fraunces',serif; font-style:italic; font-size:1.4rem;
+    color:var(--rust-soft); margin-top:1.6rem; font-weight:500;
+  }
+
+  /* shared button */
+  .next-btn{
+    margin-top:2.6rem;
+    padding:0.95rem 2.4rem;
+    font-family:'Inter',sans-serif;
+    font-size:0.85rem;
+    font-weight:500;
+    letter-spacing:0.04em;
+    background:transparent;
+    color:var(--paper);
+    border:1px solid var(--line);
+    border-radius:2px;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    position:relative;
+  }
+  .next-btn:hover{
+    border-color:var(--rust-soft);
+    background:rgba(181,72,47,0.08);
+    transform:translateY(-1px);
+  }
+  .next-btn .arrow{ margin-left:0.6rem; transition:transform 0.3s ease; display:inline-block;}
+  .next-btn:hover .arrow{ transform:translateX(4px); }
+
+  /* ---------- PAGE 2 : GALLERY ---------- */
+  #page2{background:radial-gradient(circle at 50% 10%, #1a2330 0%, #0f1419 60%);}
+  .gallery-wrap{ width:100%; max-width:560px; }
+  .gallery-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:4/3;
+    border:1px solid var(--line);
+    background:var(--panel);
+    overflow:hidden;
+    border-radius:2px;
+  }
+  .gallery-frame::before, .gallery-frame::after{
+    content:''; position:absolute; width:18px; height:18px; z-index:3; pointer-events:none;
+    border-color:var(--rust-soft);
+  }
+  .gallery-frame::before{ top:10px; left:10px; border-top:1.5px solid; border-left:1.5px solid; }
+  .gallery-frame::after{ bottom:10px; right:10px; border-bottom:1.5px solid; border-right:1.5px solid; }
+
+  .gallery-slide{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    opacity:0; transition:opacity 0.45s ease; background:var(--panel);
+  }
+  .gallery-slide.active{ opacity:1; }
+  .gallery-slide img{
+    width:100%; height:100%; object-fit:cover; filter:saturate(0.92) contrast(1.03);
+  }
+  .empty-slot{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:0.8rem; color:var(--slate); cursor:pointer; width:100%; height:100%;
+    padding:2rem; text-align:center;
+  }
+  .empty-slot:hover{ color:var(--rust-soft); }
+  .empty-slot svg{ width:34px; height:34px; opacity:0.7; }
+  .empty-slot span{ font-size:0.8rem; letter-spacing:0.03em; }
+
+  .slide-caption{
+    text-align:center; color:var(--paper-dim); font-size:0.85rem; font-style:italic;
+    font-family:'Fraunces',serif; margin-top:1.1rem; min-height:1.4em;
+  }
+  .slide-dots{ display:flex; justify-content:center; gap:9px; margin-top:1rem; }
+  .dot{ width:6px; height:6px; border-radius:50%; background:var(--line); border:none; cursor:pointer; transition:all 0.3s; padding:0; }
+  .dot.active{ background:var(--rust-soft); transform:scale(1.6); }
+
+
+
+  .animated-msg{
+    font-size:clamp(0.92rem, 2.2vw, 1.05rem);
+    color:var(--paper-dim);
+    text-align:center;
+    max-width:440px;
+    margin-top:1.8rem;
+    line-height:1.8;
+    font-weight:300;
+    font-style:italic;
+    font-family:'Fraunces',serif;
+    transition:opacity 0.45s ease;
+    min-height:3.2em;
+  }
+
+  /* ---------- PAGE 3 : LETTER ---------- */
+  #page3{background:radial-gradient(circle at 50% 15%, #1a2330 0%, #0f1419 65%);}
+  .letter-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:2px solid var(--rust-soft);
+    padding:2.6rem 2.4rem;
+    max-width:560px; width:100%;
+    position:relative;
+  }
+  .letter-text{ color:var(--paper-dim); font-size:clamp(0.92rem, 2vw, 1.02rem); line-height:1.95; font-weight:300; }
+  .letter-text p{ margin-bottom:1.1rem; }
+  .letter-text .greeting{
+    font-family:'Fraunces',serif; font-size:1.35rem; font-weight:500; color:var(--paper); font-style:italic; display:block; margin-bottom:1.3rem;
+  }
+  .letter-text .verse{
+    display:block; color:var(--rust-soft); font-style:italic; font-family:'Fraunces',serif;
+    font-size:0.95em; margin:1.4rem 0; border-left:1.5px solid var(--rust-soft); padding-left:1rem;
+  }
+  .letter-text .closing{ color:var(--paper); font-style:italic; font-family:'Fraunces',serif; font-size:1.05rem; display:block; margin-top:1.4rem; }
+
+  /* ---------- PAGE 4 : QUESTION ---------- */
+  #page4{background:radial-gradient(circle at 50% 20%, #1a2330 0%, #0f1419 65%);}
+  .question-title{
+    font-family:'Fraunces',serif; font-weight:600; font-style:italic;
+    font-size:clamp(1.9rem, 6vw, 3rem); color:var(--paper); text-align:center; margin-bottom:0.6rem;
+  }
+  .teaser-text{
+    color:var(--paper-dim); font-size:clamp(0.88rem, 2vw, 1rem); text-align:center;
+    max-width:440px; line-height:1.8; margin-bottom:2rem; font-weight:300; min-height:90px;
+  }
+  .teaser-text em{ color:var(--rust-soft); font-style:italic; }
+  .btn-arena{ position:relative; width:min(420px, 90vw); height:90px; margin-bottom:1rem; }
+  .btn-yes{
+    padding:0.95rem 2.6rem; font-size:0.95rem; font-weight:600; letter-spacing:0.03em;
+    background:var(--rust); color:var(--paper); border:none; border-radius:2px; cursor:pointer;
+    transition:transform 0.15s, background 0.2s; position:absolute; left:50%; top:50%;
+    transform:translate(calc(-50% - 85px), -50%); z-index:2; font-family:'Inter',sans-serif;
+  }
+  .btn-yes:hover{ background:var(--rust-soft); transform:translate(calc(-50% - 85px), -52%) scale(1.04); }
+  .btn-no{
+    padding:0.95rem 2.2rem; font-size:0.9rem; font-weight:500; background:transparent;
+    color:var(--slate); border:1px solid var(--line); border-radius:2px; cursor:pointer;
+    position:absolute; transition:left 0.05s, top 0.05s; user-select:none; right:0; top:50%;
+    transform:translateY(-50%); font-family:'Inter',sans-serif;
+  }
+  .yes-msg{
+    display:none; color:var(--paper); font-family:'Fraunces',serif; font-style:italic;
+    font-size:clamp(1.05rem, 2.8vw, 1.4rem); text-align:center; font-weight:500;
+    max-width:440px; line-height:1.7;
+  }
+  .yes-msg .small{ display:block; font-family:'Inter',sans-serif; font-style:normal; font-weight:300;
+    font-size:0.85rem; color:var(--rust-soft); margin-top:0.8rem; letter-spacing:0.04em; text-transform:uppercase;}
+
+  /* ---------- progress dots (top nav) ---------- */
+  .progress{
+    position:fixed; top:1.6rem; left:50%; transform:translateX(-50%); z-index:10;
+    display:flex; gap:8px;
+  }
+  .progress-dot{ width:5px; height:5px; border-radius:50%; background:var(--line); transition:all 0.3s; }
+  .progress-dot.active{ background:var(--rust-soft); width:16px; border-radius:3px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="progress" id="progress">
+  <div class="progress-dot active" data-p="1"></div>
+  <div class="progress-dot" data-p="2"></div>
+  <div class="progress-dot" data-p="3"></div>
+  <div class="progress-dot" data-p="4"></div>
+</div>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <div class="page-content">
+    <p class="eyebrow">Father&rsquo;s Day</p>
+    <h1 class="main-title">Happy<br><em>Father&rsquo;s Day</em></h1>
+    <div class="divider"></div>
+    <p class="love-msg">
+      A message from your son, <strong>Bonnke</strong>.<br><br>
+      To the man whose heart beats with the love of a father — this small gift comes from a very big place inside me.
+    </p>
+    <p class="signature">— with love, always</p>
+    <button class="next-btn" onclick="goTo(2)">Begin <span class="arrow">&rarr;</span></button>
+  </div>
+</div>
+
+<!-- PAGE 2 : GALLERY -->
+<div class="page" id="page2">
+  <div class="page-content">
+    <p class="eyebrow">A Few Moments</p>
+    <div class="gallery-wrap">
+      <div class="gallery-frame" id="galleryFrame"></div>
+      <p class="slide-caption" id="slideCaption"></p>
+      <div class="slide-dots" id="slideDots"></div>
+    </div>
+    <p class="animated-msg" id="animMsg">&ldquo;Thank you for everything you have done for me, Dad...&rdquo;</p>
+    <button class="next-btn" onclick="goTo(3)">Read what&rsquo;s in my heart <span class="arrow">&rarr;</span></button>
+  </div>
+</div>
+
+<!-- PAGE 3 : LETTER -->
+<div class="page" id="page3">
+  <div class="page-content">
+    <p class="eyebrow">A Letter</p>
+    <div class="letter-card">
+      <div class="letter-text">
+        <span class="greeting">Happy Father&rsquo;s Day, Dad</span>
+        <p>Thank you for saying <em>yes</em> to God — because of that one yes, I am on my path to greatness.</p>
+        <p>The growth I carry today, the faith that holds me together, the man I am becoming — it is all because you chose to father me. Not just in title, but in truth.</p>
+        <p>I love you, Dad. More than words on a page can hold.</p>
+        <p>Please don&rsquo;t stop. Keep teaching me. Keep correcting me. Keep covering me like a father does — because there is no one who does it like you.</p>
+        <span class="verse">&ldquo;"For whom the Lord loveth he chasteneth, and scourgeth every son whom he receiveth.".&rdquo;<br>— Hebrews 12:6</span>
+        <span class="closing">I am proud to be your son, and I believe you are proud of me too. Happy Father&rsquo;s Day, Bishop Enobong Etteh.</span>
+      </div>
+    </div>
+    <button class="next-btn" onclick="goTo(4)">One last thing, Dad <span class="arrow">&rarr;</span></button>
+  </div>
+</div>
+
+<!-- PAGE 4 : QUESTION -->
+<div class="page" id="page4">
+  <div class="page-content">
+    <p class="eyebrow">Last Question</p>
+    <h2 class="question-title">Do you love me, Dad?</h2>
+    <p class="teaser-text" id="teaserTxt">
+      Before you answer — think about it. You&rsquo;re a bishop, you preach truth every Sunday.<br><br>
+      <em>Go ahead... try that No button. I dare you.</em>
+    </p>
+    <div class="btn-arena" id="btnArena">
+      <button class="btn-yes" onclick="hitYes()">YES</button>
+      <button class="btn-no" id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo()">NO</button>
+    </div>
+    <div class="yes-msg" id="yesMsg">
+      I knew it, Dad.<br>
+      Thank you for loving me.<br>
+      Happy Father&rsquo;s Day, Bishop Enobong Etteh — I love you beyond words.
+      <span class="small">From your son, Bonnke</span>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   ADD YOUR PHOTOS HERE
+   ------------------------------------------------------------
+   For each slide, set "src" to a photo and "caption" to the
+   text under it. Two ways to provide a photo:
+
+   1) A normal image URL (if the photo is hosted online), e.g.
+      src: "https://example.com/dad-photo.jpg"
+
+   2) A Base64 data URL (works fully offline, embeds the image
+      INSIDE this file). To get one: go to a site like
+      base64-image.de, upload your photo, copy the long string
+      that starts with "data:image/jpeg;base64,..." and paste
+      it as the src value below.
+
+   Leave src as null to skip a slide (it just won't be shown).
+   You can use anywhere from 1 to 5 photos.
+   ============================================================ */
+var slideData = [
+  { src: './2.JPG', caption: 'A man of God. A father to many.' },
+   { src: './IMG_5421.JPG', caption: 'Bishop Enobong Etteh.' },
+  { src: './IMG_5422.JPG', caption: 'Every sermon shaped who I am.' },
+   { src: './IMG_5423.JPG', caption: 'You chose to carry me, Dad.' },
+  { src: './IMG_5420.JPG', caption: 'Forever grateful, Dad.' }
+];
+/* ============================================================
+   END OF PHOTO SECTION — no need to edit anything below this
+   ============================================================ */
+
+// ---------- Page navigation ----------
+function goTo(n){
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('page' + n).classList.add('active');
+  document.querySelectorAll('.progress-dot').forEach(function(d){
+    d.classList.toggle('active', d.dataset.p == n);
+  });
+  if (n === 2) initGallery();
+  window.scrollTo(0, 0);
+}
+
+// ---------- Gallery (reads from slideData above) ----------
+var activeSlides = slideData.filter(function(s){ return s.src; });
+var curSlide = 0;
+var slideTimer = null;
+
+var msgs = [
+  '"Thank you for everything you have done for me, Dad..."',
+  '"It may look like I am not grateful — but from within me, I am deeply grateful."',
+  '"You taught me how to stand even when I wanted to fall."',
+  '"Because of you, I know what a father looks like."',
+  '"Thank you, Dad. From the bottom of my heart — thank you."'
+];
+var msgIdx = 0;
+
+function initGallery(){
+  var frame = document.getElementById('galleryFrame');
+  frame.innerHTML = '';
+
+  if (activeSlides.length === 0) {
+    var fallback = document.createElement('div');
+    fallback.className = 'gallery-slide active';
+    fallback.innerHTML = '<div class="empty-slot" style="cursor:default"><span>Photos coming soon</span></div>';
+    frame.appendChild(fallback);
+    document.getElementById('slideDots').innerHTML = '';
+    document.getElementById('slideCaption').textContent = '';
+    return;
+  }
+
+  activeSlides.forEach(function(s, i){
+    var slide = document.createElement('div');
+    slide.className = 'gallery-slide' + (i === 0 ? ' active' : '');
+    slide.id = 'slide-' + i;
+    var img = document.createElement('img');
+    img.src = s.src;
+    img.alt = s.caption;
+    slide.appendChild(img);
+    frame.appendChild(slide);
+  });
+
+  var dots = document.getElementById('slideDots');
+  dots.innerHTML = '';
+  if (activeSlides.length > 1) {
+    activeSlides.forEach(function(_, i){
+      var d = document.createElement('button');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Photo ' + (i + 1));
+      d.onclick = function(){ showSlide(i); restartTimer(); };
+      dots.appendChild(d);
+    });
+  }
+
+  showSlide(0);
+  if (activeSlides.length > 1) restartTimer();
+}
+
+function showSlide(i){
+  curSlide = i;
+  document.querySelectorAll('.gallery-slide').forEach(function(s, j){
+    s.classList.toggle('active', j === i);
+  });
+  document.querySelectorAll('.dot').forEach(function(d, j){
+    d.classList.toggle('active', j === i);
+  });
+  document.getElementById('slideCaption').textContent = activeSlides[i].caption;
+}
+
+function restartTimer(){
+  clearInterval(slideTimer);
+  slideTimer = setInterval(function(){
+    curSlide = (curSlide + 1) % activeSlides.length;
+    msgIdx = (msgIdx + 1) % msgs.length;
+    showSlide(curSlide);
+    var m = document.getElementById('animMsg');
+    m.style.opacity = '0';
+    setTimeout(function(){
+      m.textContent = msgs[msgIdx];
+      m.style.opacity = '1';
+    }, 250);
+  }, 3200);
+}
+
+// ---------- No button escape ----------
+var teaserLines = [
+  'Oh come on... it moved! Try again, Dad. Unless...',
+  'The button knows the truth, Dad. Your heart does too.',
+  'Even the button is running from that answer.',
+  'Try all you want, Dad — that NO has no home here.',
+  'Still running! God is watching, Dad...',
+  'The No button won&rsquo;t settle down because it knows the answer already.'
+];
+var teaserIdx = 0;
+
+function moveNo(){
+  var btn = document.getElementById('noBtn');
+  var arena = document.getElementById('btnArena');
+  var aw = arena.offsetWidth, ah = arena.offsetHeight;
+  var bw = btn.offsetWidth || 100, bh = btn.offsetHeight || 50;
+  var maxX = Math.max(aw - bw, 0), maxY = Math.max(ah - bh, 0);
+  btn.style.left = Math.floor(Math.random() * maxX) + 'px';
+  btn.style.top = Math.floor(Math.random() * maxY) + 'px';
+  btn.style.right = 'auto';
+  btn.style.transform = 'none';
+  teaserIdx = (teaserIdx + 1) % teaserLines.length;
+  document.getElementById('teaserTxt').innerHTML = '<em>' + teaserLines[teaserIdx] + '</em>';
+}
+
+function hitYes(){
+  document.getElementById('btnArena').style.display = 'none';
+  document.getElementById('teaserTxt').style.display = 'none';
+  document.getElementById('yesMsg').style.display = 'block';
+}
+</script>
+</body>
+</html>
